@@ -262,7 +262,12 @@ h2 em {
   overflow: hidden;
   place-items: center;
   border-radius: 48% 48% 5px 5px;
-  background: #e7e8d7;
+  background:
+    radial-gradient(circle at 75% 22%, rgba(255, 255, 255, 0.62), transparent 30%),
+    linear-gradient(145deg, #eef0e2, #dfe4d2);
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 .hero-art::before,
@@ -317,7 +322,9 @@ h2 em {
   top: 30%;
   left: 24%;
   width: 58%;
-  transform: rotate(-3deg);
+  transform: perspective(900px) rotateX(8deg) rotateY(-8deg) rotateZ(-3deg);
+  transform-style: preserve-3d;
+  animation: book-float 6s ease-in-out infinite;
 }
 
 .book {
@@ -330,7 +337,22 @@ h2 em {
   padding: 0 25px 0 30px;
   border: 1px solid rgba(43, 57, 43, 0.14);
   border-radius: 4px 8px 8px 4px;
-  box-shadow: 0 8px 15px rgba(53, 65, 46, 0.14);
+  box-shadow: 0 12px 16px rgba(53, 65, 46, 0.12), 0 3px 5px rgba(53, 65, 46, 0.1);
+  transform: translateZ(12px);
+  transform-style: preserve-3d;
+}
+
+.book::after {
+  position: absolute;
+  top: 5px;
+  right: -7px;
+  bottom: 5px;
+  width: 7px;
+  border-radius: 0 3px 3px 0;
+  background: repeating-linear-gradient(0deg, #e9dfc8 0 2px, #f8f1df 2px 4px);
+  content: "";
+  transform: skewY(-32deg);
+  transform-origin: left center;
 }
 
 .book::before {
@@ -361,12 +383,14 @@ h2 em {
   margin-left: 9%;
   background: #d7a67f;
   color: #624937;
+  transform: translateZ(30px);
 }
 
 .book-middle {
   width: 100%;
   background: #4c7059;
   color: #f4ebd6;
+  transform: translateZ(20px);
 }
 
 .book-bottom {
@@ -374,6 +398,7 @@ h2 em {
   margin-left: 4%;
   background: #e4cc86;
   color: #4f5034;
+  transform: translateZ(10px);
 }
 
 .mug {
@@ -563,11 +588,23 @@ h2 {
   overflow: hidden;
   padding: 22px;
   border-radius: 4px;
-  transition: transform 200ms ease;
+  box-shadow: 0 5px 12px rgba(53, 65, 46, 0.06);
+  transform-style: preserve-3d;
+  transition: transform 280ms ease, box-shadow 280ms ease;
 }
 
 .collection-card:hover {
-  transform: translateY(-4px);
+  box-shadow: 0 20px 28px rgba(53, 65, 46, 0.15);
+  transform: perspective(900px) rotateY(-4deg) rotateX(2deg) translateY(-6px);
+}
+
+.collection-card:nth-child(even):hover {
+  transform: perspective(900px) rotateY(4deg) rotateX(2deg) translateY(-6px);
+}
+
+.collection-card:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 4px;
 }
 
 .fiction {
@@ -900,12 +937,13 @@ h2 {
   font: inherit;
   text-align: left;
   cursor: pointer;
-  transition: transform 200ms ease, background 200ms ease;
+  transition: transform 260ms ease, background 200ms ease, box-shadow 260ms ease;
 }
 
 .offer-card:hover {
   background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-4px);
+  box-shadow: 0 18px 28px rgba(0, 0, 0, 0.2);
+  transform: perspective(900px) rotateX(3deg) translateY(-5px);
 }
 
 .offer-amount {
@@ -1040,12 +1078,13 @@ h2 {
   border: 1px solid var(--line);
   border-radius: 4px;
   background: var(--white);
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  transform-style: preserve-3d;
+  transition: transform 260ms ease, box-shadow 260ms ease;
 }
 
 .book-card:hover {
-  box-shadow: 0 12px 24px rgba(53, 65, 46, 0.1);
-  transform: translateY(-4px);
+  box-shadow: 0 20px 30px rgba(53, 65, 46, 0.16);
+  transform: perspective(900px) rotateX(2deg) translateY(-6px);
 }
 
 .book-cover {
@@ -1055,8 +1094,16 @@ h2 {
   flex-direction: column;
   justify-content: flex-end;
   padding: 18px 18px 18px 30px;
-  background: var(--cover);
+  background:
+    linear-gradient(112deg, rgba(255, 255, 255, 0.2), transparent 38%),
+    linear-gradient(var(--cover), var(--cover));
   color: #fffaf0;
+  transform-origin: center bottom;
+  transition: transform 260ms ease;
+}
+
+.book-card:hover .book-cover {
+  transform: perspective(900px) rotateY(-3deg) translateZ(5px);
 }
 
 .book-cover::before {
@@ -1066,6 +1113,17 @@ h2 {
   left: 16px;
   width: 1px;
   background: rgba(255, 255, 255, 0.4);
+  content: "";
+}
+
+.book-cover::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.12));
   content: "";
 }
 
@@ -1174,6 +1232,17 @@ h2 {
   border: 0;
   font-family: inherit;
   cursor: pointer;
+}
+
+@keyframes book-float {
+  0%,
+  100% {
+    transform: perspective(900px) rotateX(8deg) rotateY(-8deg) rotateZ(-3deg) translateY(0);
+  }
+
+  50% {
+    transform: perspective(900px) rotateX(8deg) rotateY(-8deg) rotateZ(-3deg) translateY(-7px);
+  }
 }
 
 @media (min-width: 1450px) {
@@ -1400,5 +1469,6 @@ h2 {
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
+    animation: none !important;
   }
 }
