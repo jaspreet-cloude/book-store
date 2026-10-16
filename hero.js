@@ -218,6 +218,7 @@ function createBook(title, symbol, color, index) {
 async function startThreeScene() {
   THREE = await import("https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js");
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color("#050505");
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
   camera.position.set(0, 3.25, 7.4);
   camera.lookAt(0, 0.45, 0);
@@ -239,7 +240,7 @@ async function startThreeScene() {
 
   const ground = new THREE.Mesh(
     new THREE.CircleGeometry(2.15, 64),
-    new THREE.MeshStandardMaterial({ color: "#e7dfc9", roughness: 1 }),
+    new THREE.MeshStandardMaterial({ color: "#171717", roughness: 0.88, metalness: 0.12 }),
   );
   ground.rotation.x = -Math.PI / 2;
   ground.position.set(0, -0.11, 0);
@@ -248,7 +249,7 @@ async function startThreeScene() {
 
   const sun = new THREE.Mesh(
     new THREE.CircleGeometry(0.52, 64),
-    new THREE.MeshBasicMaterial({ color: "#e8cb81" }),
+    new THREE.MeshBasicMaterial({ color: "#c2a65e" }),
   );
   sun.position.set(1.36, 2.15, -1.4);
   scene.add(sun);
