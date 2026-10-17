@@ -2015,6 +2015,58 @@ h2 {
   cursor: pointer;
 }
 
+.cart-feedback {
+  position: fixed;
+  z-index: 20;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  width: min(460px, calc(100vw - 40px));
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: 0 12px 36px rgba(20, 32, 24, 0.18);
+  font-size: 12px;
+}
+
+.cart-feedback > span {
+  flex: 1;
+}
+
+.cart-feedback-view,
+.cart-feedback-close {
+  flex: 0 0 auto;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.cart-feedback-view {
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: var(--green);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.cart-feedback-close {
+  padding: 0 2px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.cart-feedback-view:focus-visible,
+.cart-feedback-close:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
 .cart-summary {
   padding-top: 18px;
 }

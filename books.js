@@ -79,6 +79,8 @@ const resultsCount = document.getElementById("results-count");
 const emptyState = document.getElementById("empty-state");
 const tabs = document.querySelectorAll(".filter-tab");
 const shopStatus = document.getElementById("shop-status");
+const cartFeedback = document.getElementById("cart-feedback");
+const cartFeedbackMessage = document.getElementById("cart-feedback-message");
 const cartDialog = document.getElementById("cart-dialog");
 const cartItems = document.getElementById("cart-items");
 const cartSummary = document.getElementById("cart-summary");
@@ -314,6 +316,8 @@ grid.addEventListener("click", (event) => {
     cart[book.title] = (cart[book.title] || 0) + 1;
     const saved = saveData(CART_STORAGE_KEY, cart, "your cart");
     renderCart();
+    cartFeedbackMessage.textContent = `${book.title} added to your cart (${cart[book.title]} ${cart[book.title] === 1 ? "copy" : "copies"}).`;
+    cartFeedback.hidden = false;
     if (saved) shopStatus.textContent = `${book.title} added to your cart.`;
     return;
   }
@@ -332,8 +336,19 @@ grid.addEventListener("click", (event) => {
 });
 
 document.getElementById("open-cart").addEventListener("click", () => {
+  cartFeedback.hidden = true;
   renderCart();
   cartDialog.showModal();
+});
+
+document.getElementById("view-cart").addEventListener("click", () => {
+  cartFeedback.hidden = true;
+  renderCart();
+  cartDialog.showModal();
+});
+
+document.getElementById("close-cart-feedback").addEventListener("click", () => {
+  cartFeedback.hidden = true;
 });
 
 cartDialog.addEventListener("click", (event) => {
